@@ -1,0 +1,24 @@
+
+[alias]
+	br = branch
+	ci = commit -s
+	co = checkout
+	di = diff
+	pf = pull --ff-only
+	pu = push
+	sb = show-branch
+	sr = show-ref
+	st = status
+	stun = status --untracked=normal
+	wc = whatchanged
+	wt = worktree
+[format]
+	signoff = true
+[merge]
+	tool = vimdiff
+[advice]
+	detachedHead = false
+[core]
+	pager = less -F
+[status]
+	showUntrackedFiles = no
