@@ -9,7 +9,10 @@ alias ..='cd ..'
 alias jd='echo "## jobs ##" ; jobs ; echo "## dirs ##" ; dirs -p '
 alias mkdirnow='mkdir $(date +"%F-%H%M%S")'
 alias mkdirtoday='mkdir $(date +"%F")'
+
+# macOS thing
 alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
+alias zcat='gzcat'
 
 alias dirs='dirs -p'
 # AC ssh with SOCKS proxy
@@ -19,50 +22,56 @@ alias dirs='dirs -p'
 
 alias k='kubectl'
 # oc aliases
-alias ogy='oc get -o yaml'
-alias ogw='oc get -o wide'
-alias ogco=' oc get co'
-alias ogns=' oc get ns'
-alias ogp=' oc get pods'
-alias ogpw=' oc get pods -owide'
-alias odp=' oc describe pods'
-alias ogrA=' oc get route -A'
-alias ogrd=' oc get route -A | grep ditty'
+alias    ogy='oc get -o yaml'
+alias    ogw='oc get -o wide'
+alias   ogco='oc get co'
+alias   ogns='oc get ns'
+alias    ogp='oc get pods'
+alias   ogpw='oc get pods -owide'
+alias    odp='oc describe pods'
+alias   ogrA='oc get route -A'
+alias   ogrd='oc get route -A | grep ditty'
  
-alias ogmcp=' oc get mcp'
-alias ogmc=' oc get mc'
+alias  ogmcp='oc get mcp'
+alias   ogmc='oc get mc'
  
-alias ogn=' oc get nodes'
-alias odn=' oc describe nodes'
-alias ognow=' oc get nodes -o wide'
-alias ognoww=' oc get nodes -o wide -w'
-alias ognoy=' oc get nodes -o yaml'
+alias    ogn='oc get nodes'
+alias    odn='oc describe nodes'
+alias  ognow='oc get nodes -o wide'
+alias ognoww='oc get nodes -o wide -w'
+alias  ognoy='oc get nodes -o yaml'
  
-alias ogm=' oc -n openshift-machine-api get machines '
-alias ogmw=' oc -n openshift-machine-api get machines -o wide'
-alias ogmy=' oc -n openshift-machine-api get machines -o yaml'
-alias odm=' oc -n openshift-machine-api describe machines '
-alias odelm=' oc -n openshift-machine-api delete machines --wait=false'
+alias    ogm='oc -n openshift-machine-api get machines'
+alias   ogmw='oc -n openshift-machine-api get machines -o wide'
+alias   ogmy='oc -n openshift-machine-api get machines -o yaml'
+alias    odm='oc -n openshift-machine-api describe machines'
+alias  odelm='oc -n openshift-machine-api delete machines --wait=false'
  
-alias ogma=' oc -n openshift-machine-api get ma '
-alias ogca=' oc -n openshift-machine-api get ca '
-alias olca='oc -n openshift-machine-api logs -lcluster-autoscaler=default --tail=-1'
+alias   ogma='oc -n openshift-machine-api get ma'
+alias   ogca='oc -n openshift-machine-api get ca'
+alias   olca='oc -n openshift-machine-api logs -lcluster-autoscaler=default --tail=-1'
  
-alias ogmhc='oc -n openshift-machine-api get machinehealthcheck '
+alias  ogmhc='oc -n openshift-machine-api get machinehealthcheck'
  
-alias ogms='oc -n openshift-machine-api get machinesets '
-alias oems='oc -n openshift-machine-api edit machinesets '
-alias odms='oc -n openshift-machine-api describe machinesets '
-alias osms="oc -n openshift-machine-api scale machineset"
-alias odelms='oc -n openshift-machine-api delete machinesets '
+alias   ogms='oc -n openshift-machine-api get machinesets'
+alias   oems='oc -n openshift-machine-api edit machinesets'
+alias   odms='oc -n openshift-machine-api describe machinesets'
+alias   osms='oc -n openshift-machine-api scale machineset'
+alias odelms='oc -n openshift-machine-api delete machinesets'
  
-alias ogbmh='oc -n openshift-machine-api get bmh'
+alias  ogbmh='oc -n openshift-machine-api get bmh'
 alias ogbmhy='oc -n openshift-machine-api get bmh -oyaml'
 alias ogbmhw='oc -n openshift-machine-api get bmh -owide'
-alias odbmh='oc -n openshift-machine-api describe bmh'
+alias  odbmh='oc -n openshift-machine-api describe bmh'
 
 # Git aliases
 alias gdic='git diff --cached'
 alias grim='git rebase -i master'
 alias gcim='git commit -m'
 alias gcimfh='git commit --fixup HEAD -m'
+
+f() {
+    local col=$1
+    shift
+    awk "{ print \$$col }" "$@"
+}
