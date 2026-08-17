@@ -70,8 +70,18 @@ alias grim='git rebase -i master'
 alias gcim='git commit -m'
 alias gcimfh='git commit --fixup HEAD -m'
 
+# Reduce 'awk print' to parse space-separated data to a single character
 f() {
-    local col=$1
-    shift
-    awk "{ print \$$col }" "$@"
+  local cols=$1
+  shift
+  # Replace commas with ", $" and prepend a "$" to build the awk print block
+  local awk_cols="\$${cols//,/, \$}"
+  awk "{ print $awk_cols }" "$@"
+}
+
+# Short for 'last' or 'latest': Print the latest few files in current or a target dir
+lst() {
+  local dir="${1:-.}"
+  [ $# -gt 0 ] && shift
+  ls -lrt "$dir" "$@" | tail
 }
