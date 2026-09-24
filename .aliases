@@ -85,3 +85,28 @@ lst() {
   [ $# -gt 0 ] && shift
   ls -lrt "$dir" "$@" | tail
 }
+
+_ssh_prom_node() {
+  local pod_name="$1"
+  shift # Remove the pod name from the argument list
+  local node_name
+  local node_ip
+  # Get the node hosting the pod
+  node_name=$(oc get pod "$pod_name" -n openshift-monitoring -o jsonpath='{.spec.nodeName}') || return 1
+  if [ -z "$node_name" ]; then
+    echo "Error: Could not find node for pod $pod_name" >&2
+    return 1
+  fi
+  # Get the InternalIP for that specific node
+  node_ip=$(oc get node "$node_name" -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}') || return 1
+  if [ -z "$node_ip" ]; then
+    echo "Error: Could not find InternalIP for node $node_name" >&2
+    return 1
+  fi
+  echo "Connecting to $pod_name on $node_name ($node_ip)..." >&2
+  # Pass all remaining arguments directly to SSH
+  ssh "core@$node_ip" "$@"
+}
+
+ssh-prom0() { _ssh_prom_node "prometheus-k8s-0" "$@"; }
+ssh-prom1() { _ssh_prom_node "prometheus-k8s-1" "$@"; }
