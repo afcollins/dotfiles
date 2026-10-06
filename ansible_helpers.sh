@@ -85,7 +85,7 @@ ssh-node() {
 
     IFS=$'\t' read -r hostname ip _ <<< "$matches"
     echo "Connecting to $hostname ($ip)..."
-    ssh "$ip"
+    ssh "core@${ip}"
 }
 
 # 2) vm-info <vmname> — Print hypervisor and hv_ip for a VM
