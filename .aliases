@@ -31,34 +31,34 @@ alias   ogpw='oc get pods -owide'
 alias    odp='oc describe pods'
 alias   ogrA='oc get route -A'
 alias   ogrd='oc get route -A | grep ditty'
- 
+
 alias  ogmcp='oc get mcp'
 alias   ogmc='oc get mc'
- 
+
 alias    ogn='oc get nodes'
 alias    odn='oc describe nodes'
 alias  ognow='oc get nodes -o wide'
 alias ognoww='oc get nodes -o wide -w'
 alias  ognoy='oc get nodes -o yaml'
- 
+
 alias    ogm='oc -n openshift-machine-api get machines'
 alias   ogmw='oc -n openshift-machine-api get machines -o wide'
 alias   ogmy='oc -n openshift-machine-api get machines -o yaml'
 alias    odm='oc -n openshift-machine-api describe machines'
 alias  odelm='oc -n openshift-machine-api delete machines --wait=false'
- 
+
 alias   ogma='oc -n openshift-machine-api get ma'
 alias   ogca='oc -n openshift-machine-api get ca'
 alias   olca='oc -n openshift-machine-api logs -lcluster-autoscaler=default --tail=-1'
- 
+
 alias  ogmhc='oc -n openshift-machine-api get machinehealthcheck'
- 
+
 alias   ogms='oc -n openshift-machine-api get machinesets'
 alias   oems='oc -n openshift-machine-api edit machinesets'
 alias   odms='oc -n openshift-machine-api describe machinesets'
 alias   osms='oc -n openshift-machine-api scale machineset'
 alias odelms='oc -n openshift-machine-api delete machinesets'
- 
+
 alias  ogbmh='oc -n openshift-machine-api get bmh'
 alias ogbmhy='oc -n openshift-machine-api get bmh -oyaml'
 alias ogbmhw='oc -n openshift-machine-api get bmh -owide'
@@ -86,6 +86,12 @@ lst() {
   ls -lrt "$dir" "$@" | tail
 }
 
+alias cdrelease="cd ~/go/src/github.com/openshift/release"
+alias cdkb="cd ~/go/src/github.com/kube-burner/kube-burner"
+alias cdperfdash="cd ~/go/src/github.com/cloud-bulldozer/performance-dashboards"
+alias cdkbo="cd ~/go/src/github.com/kube-burner/kube-burner-ocp"
+alias cdorion="cd ~/go/src/github.com/cloud-bulldozer/orion"
+
 _ssh_prom_node() {
   local pod_name="$1"
   shift # Remove the pod name from the argument list
@@ -110,3 +116,5 @@ _ssh_prom_node() {
 
 ssh-prom0() { _ssh_prom_node "prometheus-k8s-0" "$@"; }
 ssh-prom1() { _ssh_prom_node "prometheus-k8s-1" "$@"; }
+
+get_prometheus_mount_path() { local cid=$(sudo crictl ps -q --label "io.kubernetes.container.name=prometheus"); [ -z "$cid" ] && { echo "Error: No container found" >&2; return 1; }; local hp=$(sudo crictl inspect "$cid" | jq -r '.info.runtimeSpec.mounts[]? | select(.destination == "/prometheus") | .source'); [ -z "$hp" ] || [ "$hp" = "null" ] && { echo "Error: Mount path not found" >&2; return 1; }; echo "$hp"; }

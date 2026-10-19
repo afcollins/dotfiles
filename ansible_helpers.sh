@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 # Source this file:  source ansible-helpers.sh [inventory_file]
+# Or do it on-demand by adding this to .bashrc
+# load_ansible(){
+#    source ~/git/dotfiles/ansible_helpers.sh ~/jetlag/ansible/inventory/cloud06.local
+# }
 # Provides: ssh-vm, ssh-node, vm-info, ssh-hv
 
 ANSIBLE_INVENTORY="${1:-$(dirname "${BASH_SOURCE[0]}")/inventory}"
